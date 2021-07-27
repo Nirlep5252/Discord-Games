@@ -42,7 +42,7 @@ class Akinator:
     async def build_embed(self, color) -> discord.Embed:
 
         embed = discord.Embed(
-            title = "Guess your character!", 
+            title = "🕵️ Guess your character!", 
             description = (
                 "```swift\n"
                 f"Question-Number  : {self.questions}\n"
@@ -51,8 +51,7 @@ class Akinator:
             ), 
             color = color
         )
-        embed.add_field(name= "- Question -", value= self.aki.question)
-        embed.set_footer(text= "Figuring out the next question | This may take a second")
+        embed.add_field(name="- Question -", value=self.aki.question)
         return embed
 
     async def win(self):

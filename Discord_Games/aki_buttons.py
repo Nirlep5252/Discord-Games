@@ -60,6 +60,24 @@ class AkiView(discord.ui.View):
     async def pn_button(self, button: discord.ui.Button, interaction: discord.Interaction):
         return await self.process_input(interaction, "pn")
 
+    @discord.ui.button(label='Exit', style=discord.ButtonStyle.danger)
+    async def exit_button(self, button: discord.ui.Button, interaction: discord.Interaction):
+        for obb in self.children:
+            obb.disabled = True
+
+        await interaction.message.edit(embed=discord.Embed(
+            title="📤 You quit.",
+            description=f"""
+**Questions Asked:** `{self.game.questions}`
+**Progression:** `{self.game.aki.progression}`
+
+{self.game.build_bar()}
+                        """,
+            color=self.color
+        ), view=self)
+
+        return self.stop()
+
 
 class BetaAkinator(Akinator):
 
@@ -72,4 +90,4 @@ class BetaAkinator(Akinator):
             await self.aki.start_game(child_mode=child_mode)
 
             embed = await self.build_embed(color)
-            self.message = await ctx.send(embed=embed, view=self.view)
+            self.message = await ctx.reply(embed=embed, view=self.view)
