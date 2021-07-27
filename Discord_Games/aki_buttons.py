@@ -67,7 +67,7 @@ class BetaAkinator(Akinator):
         async with ctx.typing():
             self.player = ctx.author
             self.win_at = win_at
-            self.view = AkiView(self, timeout=timeout)
+            self.view = AkiView(self, timeout=timeout, color=color)
 
             await self.aki.start_game(child_mode=child_mode)
 
