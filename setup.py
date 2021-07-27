@@ -1,4 +1,4 @@
-from   setuptools import setup
+from setuptools import setup
 import re
 
 with open("Discord_Games/__init__.py") as f:

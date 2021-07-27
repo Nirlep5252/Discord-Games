@@ -13,8 +13,9 @@ from .aki import Akinator
 
 class AkiView(discord.ui.View):
 
-    def __init__(self, game: BetaAkinator, *, timeout: float):
+    def __init__(self, game: BetaAkinator, color = None, *, timeout: float):
         self.game = game
+        self.color = color
         super().__init__(timeout=timeout)
 
     async def process_input(self, interaction: discord.Interaction, answer: str):
@@ -27,7 +28,7 @@ class AkiView(discord.ui.View):
         game.questions += 1
         await game.aki.answer(answer)
 
-        embed = await game.build_embed(color=game.color)
+        embed = await game.build_embed(color=self.color)
         await interaction.message.edit(embed=embed)
 
         if game.aki.progression >= game.win_at:
