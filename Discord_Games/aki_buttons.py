@@ -39,35 +39,36 @@ class AkiView(discord.ui.View):
             await interaction.message.edit(embed=embed, view=self)
             return self.stop()
 
-    @discord.ui.button(label="yes", style=discord.ButtonStyle.green)
+    @discord.ui.button(label="Yes", style=discord.ButtonStyle.green)
     async def yes_button(self, button: discord.ui.Button, interaction: discord.Interaction):
         return await self.process_input(interaction, "y")
 
-    @discord.ui.button(label="no", style=discord.ButtonStyle.danger)
+    @discord.ui.button(label="No", style=discord.ButtonStyle.danger)
     async def no_button(self, button: discord.ui.Button, interaction: discord.Interaction):
         return await self.process_input(interaction, "n")
 
-    @discord.ui.button(label="idk", style=discord.ButtonStyle.blurple)
+    @discord.ui.button(label="IDK", style=discord.ButtonStyle.blurple)
     async def idk_button(self, button: discord.ui.Button, interaction: discord.Interaction):
         return await self.process_input(interaction, "i")
 
-    @discord.ui.button(label="probably", style=discord.ButtonStyle.grey)
+    @discord.ui.button(label="Probably", style=discord.ButtonStyle.grey)
     async def py_button(self, button: discord.ui.Button, interaction: discord.Interaction):
         return await self.process_input(interaction, "p")
 
-    @discord.ui.button(label="probably not", style=discord.ButtonStyle.grey)
+    @discord.ui.button(label="Probably Not", style=discord.ButtonStyle.grey)
     async def pn_button(self, button: discord.ui.Button, interaction: discord.Interaction):
         return await self.process_input(interaction, "pn")
-        
+
 
 class BetaAkinator(Akinator):
 
-    async def start(self, ctx: commands.Context, win_at: int = 80, timeout: int = None, child_mode: bool = True, **kwargs):
-        self.player = ctx.author
-        self.win_at = win_at
-        self.view = AkiView(self, timeout=timeout)
+    async def start(self, ctx: commands.Context, win_at: int = 80, timeout: int = None, child_mode: bool = True, color = None, **kwargs):
+        async with ctx.typing():
+            self.player = ctx.author
+            self.win_at = win_at
+            self.view = AkiView(self, timeout=timeout)
 
-        await self.aki.start_game(child_mode=child_mode)
+            await self.aki.start_game(child_mode=child_mode)
 
-        embed = await self.build_embed()
-        self.message = await ctx.send(embed=embed, view=self.view)
+            embed = await self.build_embed(color)
+            self.message = await ctx.send(embed=embed, view=self.view)
