@@ -62,6 +62,9 @@ class AkiView(discord.ui.View):
 
     @discord.ui.button(label='Exit', style=discord.ButtonStyle.danger)
     async def exit_button(self, button: discord.ui.Button, interaction: discord.Interaction):
+        if interaction.user != self.game.player:
+            return await interaction.response.send_message(content="This isn't your game", ephemeral=True)
+
         for obb in self.children:
             obb.disabled = True
 
